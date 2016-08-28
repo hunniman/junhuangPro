@@ -1,0 +1,10 @@
+shiro:
+  realm: #realm class
+  loginUrl:  /user/index #login url
+  successUrl: /user/index #success url
+  unauthorizedUrl: 403.html #403 url
+  filterChainDefinitions: #filter chian
+    "/login": anon
+    "/logout": logout
+    "/resources/**": anon
+    "/**": anon #authc

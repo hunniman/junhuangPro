@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/junhuang-admin/junhuang-admin.iml" filepath="$PROJECT_DIR$/junhuang-admin/junhuang-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junhuang-core/junhuang-core.iml" filepath="$PROJECT_DIR$/junhuang-core/junhuang-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junhuang-web/junhuang-web.iml" filepath="$PROJECT_DIR$/junhuang-web/junhuang-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/junhuangPro.iml" filepath="$PROJECT_DIR$/junhuangPro.iml" />
+    </modules>
+  </component>
+</project>

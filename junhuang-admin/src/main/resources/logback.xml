@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>opt/project/mkfree-lovepet-web/logs/etaochong-api.log</File>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[etaochong-api] %d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>opt/project/mkfree-lovepet-web/logs/etaochong-api.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+    </appender>
+    <root level="info">
+        <appender-ref ref="file"/>
+    </root>
+</configuration>

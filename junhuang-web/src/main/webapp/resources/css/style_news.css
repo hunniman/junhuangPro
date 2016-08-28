@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+/* About This CSS File.
+---------------------------------------------------------
+name:         style_news.css
+information:  topics/news.htmlのスタイル
+--------------------------------------------------------- */
+#newsArea{
+width:100%;
+height:100%;
+background:#fff;
+margin:0;
+padding:0;
+text-align:left;
+line-height:1.7;
+}
+#newsArea dl/*クリアフィックス設定あり*/{
+width:700px;
+font-size:93%;
+}
+#newsArea dt{
+width:75px;
+padding-left:10px;
+color:#b3b3b3;
+float:left;
+}
+#newsArea dd{
+width:615px;
+float:right;
+}
+#newsArea dd a{
+padding-left:16px;
+background:url(../images/ico_cmn_01.gif) no-repeat left center;
+}
+
+/*---- 要素ごとのクリアフィックス ----*/
+#newsArea dl:after{
+content:url("../images/pixel.gif");
+display:block;
+clear:both;
+height:0;
+}
+#newsArea dl{
+display:inline-block;
+}
+/* Mac版IEのみに適用 \*//*/
+#newsArea dl{
+display:block;
+}
+/* */

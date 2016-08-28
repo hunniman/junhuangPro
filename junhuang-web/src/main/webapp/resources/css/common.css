@@ -1,0 +1,561 @@
+@charset "UTF-8";
+
+/* About This CSS File.
+---------------------------------------------------------
+name:         common.css
+information:  全ページ共通部分のスタイル
+--------------------------------------------------------- */
+
+/* リンクスタイル
+-------------------------------------------------- */
+a:link {
+color:#666;
+text-decoration:none;
+}
+a:visited {
+color:#666;
+text-decoration:none;
+}
+a:hover {
+color:#e62817;
+text-decoration:none;
+}
+a:active {
+color:#e62817;
+text-decoration:none;
+}
+
+/* ページ全体：モジュール要素設定
+--------------------------------------------------------- */
+html{
+background:#fff;
+}
+
+body{
+color:#666;
+line-height:1.618;
+width:100%;
+/*overflow-x:hidden;*/
+}
+
+/*---- ラッパー -----*/
+#Container{
+background:#fff;
+width:100%;
+min-width:940px;
+text-align:center;
+}
+#pageArea{
+width:100%;
+}
+
+/*---- ヘッダー -----*/
+#Header{
+width:100%;
+height:25px;
+background:#f2f2f2;
+text-align:left;
+zoom:1;
+}
+#Header #firstArea,
+#Header #pankuzuArea{
+width:749px;
+height:25px;
+float:left;
+}
+/*
+* html #Header #firstArea,
+* html #Header #pankuzuArea{
+position:relative;
+}
+*/
+#Header #firstArea h1{
+margin-left:10px;
+padding-left:25px;
+background:url(../images/ico_home_01.gif) no-repeat left center;
+line-height:2;
+font-size:12px;
+text-align:left;
+}
+#Header #pankuzuArea p,
+#Header #pankuzuArea h1{
+display:inline;
+line-height:2;
+font-size:12px;
+}
+#Header #pankuzuArea p{
+margin-right:10px;
+}
+html #Header #pankuzuArea p.pankuzuFirst{
+margin-left:10px;
+padding-left:25px;
+background:url(../images/ico_cmn_03.gif) no-repeat left center;
+}
+#Header #pankuzuArea p a{
+padding-right:18px;
+background:url(../images/ico_cmn_04.gif) no-repeat right center;
+}
+#Header #pankuzuArea h1{
+color:#000;
+}
+#Header #langArea{
+width:191px;
+height:25px;
+background:url(../images/bgi_cmn_01.gif) repeat left top;
+line-height:2;
+font-size:12px;
+float:right;
+}
+/*
+* html #Header #langArea{
+position:relative;
+}
+*/
+#Header #langArea ul{
+margin:7px 0 0 15px;
+}
+#Header #langArea ul li{
+display:inline;
+float:left;
+margin:0 5px 0 0;
+padding:0 0 0 6px;
+background:url(../images/lin_cmn_01.gif) no-repeat left top;
+}
+#Header #langArea ul li.start{
+padding-left:0;
+background:none;
+}
+#Header #langArea ul li img{
+vertical-align:top;
+}
+
+/*---- グローバルナビゲーション -----*/
+#naviArea{
+width:920px;
+padding:20px 10px 0 10px;
+}
+#naviArea p#corpLogo{
+width:66px;
+padding-top:7px;
+float:left;
+}
+#naviArea ul{
+width:790px;
+float:right;
+padding-left:1px;
+background:url(../images/lin_cmn_02.gif) no-repeat left top;
+text-align:right;
+}
+#naviArea ul li{
+display:inline;
+margin:0;
+padding:0 9px 0 9px;
+float:left;
+background:url(../images/lin_cmn_02.gif) no-repeat right top;
+}
+#naviArea ul li.end{
+padding:0 0 0 9px;
+background:none;
+}
+#naviArea img{
+}
+#naviArea img.now{
+padding-bottom:9px;
+border-bottom:2px solid #eb2917;
+}
+
+#pageTop{
+margin-top:90px;
+padding-bottom:50px;
+text-align:right;
+}
+
+/*---- フッター -----*/
+
+#Footer #fotterArea{
+width:920px;
+margin:0 auto;
+padding-bottom:15px;
+}
+#Footer #fotterArea ul{
+width:589px;
+float:left;
+}
+#Footer #fotterArea li{
+display:inline;
+margin-right:15px;
+float:left;
+}
+#Footer #fotterArea li.now a:link,
+#Footer #fotterArea li.now a:visited,
+#Footer #fotterArea li.now a:hover,
+#Footer #fotterArea li.now a:active{
+color:#eb2917;
+}
+
+#Footer #fotterArea #adminArea{
+width:316px;
+padding-top:4px;
+float:right;
+}
+#Footer #fotterArea #adminArea .copyRight{
+width:206px;
+padding-top:3px;
+float:left;
+}
+#Footer #fotterArea #adminArea .siteLogo{
+width:86px;
+float:right;
+}
+
+/* ページ全体：テキストの設定
+--------------------------------------------------------- */
+.emTxt{
+font-weight:bold;
+}
+.blcTxt{
+color:#000;
+}
+.grayTxt{
+color:#999;
+}
+.redTxt{
+color:#e62817;
+}
+.hideTxt{
+text-indent:-9999px;
+}
+
+/*----メインタイトル----*/
+.mainTitle {
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 21px;
+	color: black;
+}
+.mainTitle img {
+	margin-right: 10px;
+	vertical-align: bottom;
+}
+
+/*----アイコン付きサブタイトル----*/
+.subTitle {
+	font-weight:bold;
+	font-size:16px;
+	line-height: normal;
+	color: black;
+}
+.subTitle:before {
+	content: url(../images/ico_cmn_06.gif);
+	width: 12px;
+	height: 12px;
+	margin-right: 5px;
+}
+.subTitle.nonIcon:before {
+	content: none;
+}
+
+/*----アイコン付きリンク----*/
+.linkList a{
+padding-left:16px;
+background:url(../images/ico_cmn_01.gif) no-repeat left center;
+}
+.lnk{
+padding-left:20px;
+background:url(../images/ico_cmn_02.gif) no-repeat left center;
+}
+.prnt{
+padding-left:20px;
+background:url(../images/ico_cmn_07.gif) no-repeat left center;
+}
+.ext{
+padding-right:8px;
+background:url(../images/ico_cmn_13.gif) no-repeat right center;
+}
+
+/* ページ全体：リストの設定
+--------------------------------------------------------- */
+.basicList li{
+margin-top:10px;
+padding-left:15px;
+background:url(../images/ico_cmn_05.gif) no-repeat left 0.5em;
+}
+html .basicList li.first{
+margin-top:0!important;
+padding-left:15px;
+background:url(../images/ico_cmn_05.gif) no-repeat left 0.5em;
+}
+
+/* ページ全体：簡易スペーサーの設定
+--------------------------------------------------------- */
+.pt5{
+padding-top:5px;
+}
+.pt10{
+padding-top:10px;
+}
+.pt15{
+padding-top:15px;
+}
+.pt20{
+padding-top:20px;
+}
+.pt25{
+padding-top:25px;
+}
+.pt30{
+padding-top:30px;
+}
+.pt35{
+padding-top:35px;
+}
+.pt40{
+padding-top:40px;
+}
+.pt45{
+padding-top:45px;
+}
+.pt50{
+padding-top:50px;
+}
+.pt80{
+padding-top:80px;
+}
+
+.pl5{
+padding-left:5px;
+}
+.pl10{
+padding-left:10px;
+}
+.pl15{
+padding-left:15px;
+}
+.pl20{
+padding-left:20px;
+}
+.pl25{
+padding-left:25px;
+}
+.pl30{
+padding-left:30px;
+}
+
+.pr5{
+padding-right:5px;
+}
+.pr10{
+padding-right:10px;
+}
+.pr15{
+padding-right:15px;
+}
+.pr20{
+padding-right:20px;
+}
+.pr25{
+padding-right:25px;
+}
+.pr30{
+padding-right:30px;
+}
+
+.pb10{
+padding-bottom:10px;
+}
+.pb15{
+padding-bottom:15px;
+}
+.pb20{
+padding-bottom:20px;
+}
+.pb25{
+padding-bottom:25px;
+}
+.pb30{
+padding-bottom:30px;
+}
+.pb35{
+padding-bottom:35px;
+}
+.pb40{
+padding-bottom:40px;
+}
+.pb45{
+padding-bottom:45px;
+}
+.pb50{
+padding-bottom:50px;
+}
+
+.mt5{
+margin-top:5px;
+}
+.mt10{
+margin-top:10px;
+}
+.mt15{
+margin-top:15px;
+}
+.mt20{
+margin-top:20px;
+}
+.mt25{
+margin-top:25px;
+}
+.mt30{
+margin-top:30px;
+}
+.mt35{
+margin-top:35px;
+}
+.mt40{
+margin-top:40px;
+}
+
+.mb5{
+margin-bottom:5px;
+}
+.mb10{
+margin-bottom:10px;
+}
+.mb15{
+margin-bottom:15px;
+}
+.mb20{
+margin-bottom:20px;
+}
+.mb25{
+margin-bottom:25px;
+}
+.mb30{
+margin-bottom:30px;
+}
+.mb35{
+margin-bottom:35px;
+}
+.mb40{
+margin-bottom:40px;
+}
+.mb45{
+margin-bottom:45px;
+}
+.mb50{
+margin-bottom:50px;
+}
+
+/* ページ全体：簡易フロート設定
+--------------------------------------------------------- */
+.fltL{
+float:left;
+}
+.fltR{
+float:right;
+}
+.ctr{
+text-align:center;
+}
+
+/* ページ全体：ライン設定
+--------------------------------------------------------- */
+.topLine{
+padding-top:31px;
+background:url(../images/lin_cmn_04.gif) repeat-x left top;
+}
+
+.bottomLine{
+padding-bottom:31px;
+background:url(../images/lin_cmn_04.gif) repeat-x left bottom;
+}
+
+* htmll hr{
+display :list-item;
+width:0;
+margin-left:-10px;
+list-style :url(../images/lin_cmn_04.gif) inside;
+}
+hr{
+border:0;
+height:1px;
+margin-top:45px;
+background:url(../images/lin_cmn_04.gif) no-repeat 50% 0;
+}
+
+/* ページ全体：ボックス設定
+--------------------------------------------------------- */
+.curveBox{
+width:600px;
+padding-bottom:4px;
+background:url(../images/bgi_cmn_06.gif) no-repeat left bottom;
+}
+.curveBox .boxTop{
+padding-top:3px;
+background:url(../images/bgi_cmn_04.gif) no-repeat left top;
+}
+.curveBox .boxBody{
+background:url(../images/bgi_cmn_05.gif) repeat-y left top;
+}
+* htmll .curveBox .boxBody{
+zoom:1;
+}
+.extraBox{
+width:792px;
+margin-left:50px;
+padding:10px;
+border:4px solid #eee;
+}
+
+/* ページ全体：テーブル設定
+--------------------------------------------------------- */
+#mainArea table{
+border:none;
+text-align:left;
+}
+#mainArea table th,
+#mainArea table td{
+/*
+padding:10px;
+*/
+}
+#mainArea table th{
+/*
+border-top:1px solid #999;
+border-bottom:1px solid #999;
+font-weight:bold;
+*/
+}
+#mainArea table td{
+/*
+border-top:1px dotted #999;
+border-bottom:1px dotted #999;
+*/
+}
+#mainArea table td ul li{
+}
+
+/* ハック
+--------------------------------------------------------- */
+
+/*----- クリアフィックス -----*/	
+.clf:after{
+content:url("../images/pixel.gif");
+display:block;
+clear:both;
+height:0;
+}
+.clf{
+display:inline-block;
+}
+/* Mac版IEのみに適用 \*//*/
+.clf {
+display:block;
+}
+/* */
+
+/*----- IE6でもpngを表示させる（ロールオーバー無効／背景指定は注意） -----*/	
+* html .alp{
+behavior: expression(
+this.style.filter = this.src.match(/\.png$/) ? "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "')" : this.style.filter,
+this.src = this.src.match(/\.png$/) ? this.src.slice(0, this.src.lastIndexOf("/")+1) + "../images/pixel.gif" : this.src,
+this.style.behavior = "none"
+);

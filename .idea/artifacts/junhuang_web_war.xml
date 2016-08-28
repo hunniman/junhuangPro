@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="junhuang-web:war">
+    <output-path>$PROJECT_DIR$/junhuang-web/target</output-path>
+    <root id="archive" name="com.junhuang.web-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="junhuang-web:war exploded" />
+    </root>
+  </artifact>
+</component>

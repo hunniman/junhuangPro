@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+/* About This CSS File.
+---------------------------------------------------------
+name:         print.css
+information:  印刷用のスタイル
+--------------------------------------------------------- */
+@media print {
+	html{
+		background:#FFF;
+	}
+	
+	#Header,
+	#naviArea,
+	#sideArea,
+	#pageTop,
+	#Footer{
+		display:none;
+	}
+	
+	.clf{
+	display:block;
+	}
+	
+	#homeArea #topicsBody,
+	#newsArea dl,
+	#aboutArea .printableBox,
+	#firstArea .faqBox dl,
+	#companyArea .outlineBox dl,
+	#companyArea .historyBox dl,
+	#companyArea .officemapBox dl,
+	#mapArea .officemapBox dl,
+	#lineupArea .productBox .productInfo dl,
+	#lineupArea .productBox .productInfo .material,
+	#topicsArea .topicsList dl,
+	#topicsArea h3{
+	display:block;
+	}
+}
