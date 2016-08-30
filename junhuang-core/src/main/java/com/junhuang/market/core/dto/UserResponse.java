@@ -3,11 +3,13 @@ package com.junhuang.market.core.dto;
 import com.junhuang.market.core.enumclass.UserStatus;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by pengweiyuan on 8/28/16.
  */
 public class UserResponse implements Serializable {
+    private String id;
     private String userName;
     private String mobile;
     private String realName;
@@ -15,7 +17,24 @@ public class UserResponse implements Serializable {
     private String nickName;
     private String email;
     private String role;
+    private Date createTime;
     private byte sex;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public byte getSex() {
         return sex;
@@ -27,6 +46,10 @@ public class UserResponse implements Serializable {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getNickName() {
@@ -43,10 +66,6 @@ public class UserResponse implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getMobile() {

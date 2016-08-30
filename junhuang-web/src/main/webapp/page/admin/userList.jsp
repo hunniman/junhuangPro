@@ -36,7 +36,7 @@
                     columns: [{
                         field: 'id',
                         title: 'ID',
-                        width:60,
+                        width: 10,
                     }, {
                         field: 'userName',
                         title: '用户名',
@@ -52,15 +52,13 @@
                     }, {
                         field: 'email',
                         title: '邮箱',
-                        width:100
                     }, {
                         field: 'email',
                         title: '邮箱',
-                        width:100
                     }, {
                         field: 'sex',
                         title: '性别',
-                        width:100
+                        formatter: sexFormatter
                     }, {
                         field: 'role',
                         title: '角色'
@@ -90,6 +88,18 @@
                 ].join('');
             };
 
+            function sexFormatter(value, row, index) {
+                if (value === 0) {
+                    return "男";
+                }
+                if (value === 1) {
+                    return "女";
+                }
+                if (value === 2) {
+                    return "妖";
+                }
+            };
+
 
             window.operateEvents = {
                 'click .like': function (e, value, row, index) {
@@ -109,7 +119,7 @@
                                 $.ajax({
                                     type: "get",
                                     dataType: "json",
-                                    url: projectPath+"/back/deleteMenu",
+                                    url: projectPath + "/back/deleteUser",
                                     data: {id:row.id},
                                     success: function(data) {
                                         if(data.code==="1"){
@@ -133,7 +143,7 @@
 
             $("#btnRAdd").bind("click",function(){
                // window.open("roleAdd", "_self");
-                $("#page_content").load("menuAdd?id=''");
+                $("#page_content").load("userAdd?id=''");
             });
 
             initTable();

@@ -1,6 +1,7 @@
 package com.junhuang.market.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.junhuang.market.api.helper.UserHelper;
 import com.junhuang.market.core.common.JsonResult;
 import com.junhuang.market.core.common.TDoing;
 import com.junhuang.market.core.domain.Menu;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -34,6 +36,9 @@ public class BackController {
     private static final Logger log = LoggerFactory.getLogger(BackController.class);
    /* @Autowired
     private MongoTemplate mongoTemplate;*/
+
+    @Autowired
+    private UserHelper userHelper;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -242,4 +247,63 @@ public class BackController {
         return new ModelAndView("admin/userAdd", resultMap);
         // return "admin/roleAdd";
     }
+
+
+    @RequestMapping(value = "/saveUser")
+    @ResponseBody
+    public JsonResult saveUser(HttpServletRequest request, User user) {
+        TDoing<Map<String, Object>> doing = jr -> {
+            if (StringUtils.isBlank(user.getId())) {
+                user.setId(null);
+                if (StringUtils.isBlank(user.getUserName())) {
+                    jr.errorParam(User.USERNAME_IS_INULL);
+                    return;
+                }
+
+                if (StringUtils.isBlank(user.getPassword())) {
+                    jr.errorParam(User.PASSWORD_IS_INULL);
+                    return;
+                }
+
+                if (StringUtils.isBlank(user.getEmail())) {
+                    jr.errorParam(User.EMAIL_IS_INULL);
+                    return;
+                }
+
+                Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
+                user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
+                user.setPasswordTimestamp(passwordTimestamp);
+                user.setCreateTime(new Date());
+                userRepository.insert(user);
+            } else {
+                userRepository.save(user);
+            }
+        };
+        return doing.go(user, request, objectMapper, log);
+    }
+
+
+    @RequestMapping(value = "/deleteUser")
+    @ResponseBody
+    public JsonResult deleteUser(HttpServletRequest request, @RequestParam("id") String id) {
+        TDoing<Map<String, Object>> doing = jr -> {
+            userRepository.delete(id);
+        };
+        return doing.go(id, request, objectMapper, log);
+    }
+
+
+    @RequestMapping(value = "/checkEmail")
+    @ResponseBody
+    public HashMap<String, Object> checkEmail(HttpServletRequest request, @RequestParam("email") String email) {
+        User user = userRepository.findByEmail(email);
+        HashMap<String, Object> tempData = new HashMap<>(2);
+        if (user != null) {
+            tempData.put("valid", false);
+        } else {
+            tempData.put("valid", true);
+        }
+        return tempData;
+    }
+
 }
