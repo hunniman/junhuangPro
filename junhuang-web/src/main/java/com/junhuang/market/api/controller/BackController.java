@@ -242,8 +242,10 @@ public class BackController {
         else {
             user = userRepository.findOne(id);
         }
-        Map<String, User> resultMap = new HashMap<>(1);
+        Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("user", user);
+        Iterable<Role> roles = roleRepository.findAll();
+        resultMap.put("roles", roles);
         return new ModelAndView("admin/userAdd", resultMap);
         // return "admin/roleAdd";
     }
@@ -251,28 +253,39 @@ public class BackController {
 
     @RequestMapping(value = "/saveUser")
     @ResponseBody
-    public JsonResult saveUser(HttpServletRequest request, User user) {
+    public JsonResult saveUser(HttpServletRequest request, User user,@RequestParam("role")String role) {
         TDoing<Map<String, Object>> doing = jr -> {
+            if (StringUtils.isBlank(user.getUserName())) {
+                jr.errorParam(User.USERNAME_IS_INULL);
+                return;
+            }
+            if (StringUtils.isBlank(user.getPassword())) {
+                jr.errorParam(User.PASSWORD_IS_INULL);
+                return;
+            }
+            if (StringUtils.isBlank(user.getEmail())) {
+                jr.errorParam(User.EMAIL_IS_INULL);
+                return;
+            }
+            Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
+            user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
+            user.setPasswordTimestamp(passwordTimestamp);
+
+            if(!StringUtils.isBlank(role)){
+                String[]roleIds=role.split(",");
+                Role role1=null;
+                List<Role>roleList=new ArrayList<>(roleIds.length);
+                for(String rid:roleIds){
+                    role1=roleRepository.findOne(rid);
+                    if(role1!=null){
+                        roleList.add(role1);
+                    }
+                }
+                user.setRoleList(roleList);
+            }
+
             if (StringUtils.isBlank(user.getId())) {
                 user.setId(null);
-                if (StringUtils.isBlank(user.getUserName())) {
-                    jr.errorParam(User.USERNAME_IS_INULL);
-                    return;
-                }
-
-                if (StringUtils.isBlank(user.getPassword())) {
-                    jr.errorParam(User.PASSWORD_IS_INULL);
-                    return;
-                }
-
-                if (StringUtils.isBlank(user.getEmail())) {
-                    jr.errorParam(User.EMAIL_IS_INULL);
-                    return;
-                }
-
-                Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
-                user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
-                user.setPasswordTimestamp(passwordTimestamp);
                 user.setCreateTime(new Date());
                 userRepository.insert(user);
             } else {

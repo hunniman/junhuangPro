@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%--
   Created by IntelliJ IDEA.
   User: pengweiyuan
@@ -199,6 +200,31 @@
             <label class="btn btn-default">
                 <input type="radio" name="sex" value="2" <c:if test="${user.sex==2}"> checked="checked"</c:if> /> 妖
             </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">角色</label>
+        <div class="col-sm-10">
+            <div class="checkbox">
+                <c:forEach items="${roles}" var="role">
+                    <label>
+                          <input type="checkbox" name="role" value="${role.id}" <c:if test="${fn:contains(user.roleList, role)}"> checked="checked" </c:if> /> ${role.roleName}
+                      </label>
+                    <%--<label>
+                         <input type="checkbox" name="role" value="${role.id}"/> ${role.roleName}
+                    <label>--%>
+                </c:forEach>
+            </div>
+            <%-- <label class="checkbox inline">
+                 <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
+             </label>
+             <label class="checkbox inline">
+                 <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
+             </label>
+             <label class="checkbox inline">
+                 <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
+             </label>--%>
         </div>
     </div>
 
