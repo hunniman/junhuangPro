@@ -1,5 +1,6 @@
 package com.junhuang.market.core.domain;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -53,5 +54,16 @@ public class Role extends IDMongoEntity{
 
     public void setPermissionStr(String permissionStr) {
         this.permissionStr = permissionStr;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Role role=(Role)obj;
+        return StringUtils.equals(getId(),role.getId());
     }
 }

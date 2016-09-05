@@ -15,7 +15,12 @@ public class User extends IDMongoEntity {
     public static final String ssoPasswordEncodeKey = "xc??vn()&^i@!#Y*!&@Tkl~~deh#*!ut@#!$ks√fhs213@1234vx>>>..';[]5938˜∫√ƒ45$@#&$T@&#$^!@#!*#$^*!^#*&^<>M";
     public static final String USERNAME_IS_INULL = "用户名为空";
     public static final String PASSWORD_IS_INULL = "密码为空";
-    public static final String EMAIL_IS_INULL = "邮箱为空";
+    public static final String IS_NOT_EXIST = "用户不存在";
+    public static final String PASSWORD_IS_NOT_VALID = "密码不正确";
+    public static final String EMAIL_IS_INULL = "密码不正确";
+    public static final String WAS_LOCKED = "被锁了，请与管理员联系";
+    public static final String ERROR = "登录异常，请稍后再试";
+
     private String userName;
     private String password;
     private Long passwordTimestamp;
