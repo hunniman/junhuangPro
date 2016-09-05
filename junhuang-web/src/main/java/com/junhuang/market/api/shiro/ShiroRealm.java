@@ -1,5 +1,6 @@
 package com.junhuang.market.api.shiro;
 
+import com.junhuang.market.api.helper.UserHelper;
 import com.junhuang.market.core.domain.Role;
 import com.junhuang.market.core.domain.User;
 import com.junhuang.market.core.repository.RoleRepository;
@@ -11,6 +12,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
@@ -26,6 +28,9 @@ public class ShiroRealm  extends JdbcRealm {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserHelper userHelper;
 
 
     //授权
@@ -98,8 +103,17 @@ public class ShiroRealm  extends JdbcRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
-        String  password =new String( token.getPassword());
-        return new SimpleAuthenticationInfo(username, password, getName());
+        String  password =new String(token.getPassword());
+        User user = userRepository.findByEmail(username);
+        if(user==null){
+            throw new UnknownAccountException();//没找到帐号
+        }
+        Long passwordTimestamp = user.getPasswordTimestamp();
+        String pwdEncode=userHelper.getMd5Password(passwordTimestamp, password);
+        if(!StringUtils.equals(pwdEncode,user.getPassword())){
+            throw  new IncorrectCredentialsException();
+        }
+        return new SimpleAuthenticationInfo(username, password, ByteSource.Util.bytes(passwordTimestamp.toString()), getName());
         //return null;
     }
 }

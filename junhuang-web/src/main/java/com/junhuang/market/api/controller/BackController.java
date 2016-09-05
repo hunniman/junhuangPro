@@ -12,17 +12,23 @@ import com.junhuang.market.core.repository.MenuRepository;
 import com.junhuang.market.core.repository.RoleRepository;
 import com.junhuang.market.core.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.*;
 
@@ -55,6 +61,12 @@ public class BackController {
     @RequestMapping(value = "/index")
     public String index() {
         return "admin/index";
+    }
+
+
+    @RequestMapping(value = "/showLogin")
+    public String showLogin() {
+        return "admin/login";
     }
 
 
@@ -155,7 +167,6 @@ public class BackController {
     }
 
 
-
     @RequestMapping(value = "/menuAdd")
     public ModelAndView menuAdd(@RequestParam("id") String id) {
         Menu menu = null;
@@ -172,7 +183,7 @@ public class BackController {
 
     @RequestMapping(value = "/saveMenu")
     @ResponseBody
-    public JsonResult saveMenu(HttpServletRequest request, @RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("aliasName") String aliasName, @RequestParam("url") String url,@RequestParam("order") int order) {
+    public JsonResult saveMenu(HttpServletRequest request, @RequestParam("id") String id, @RequestParam("name") String name, @RequestParam("aliasName") String aliasName, @RequestParam("url") String url, @RequestParam("order") int order) {
         TDoing<Map<String, Object>> doing = jr -> {
             if (StringUtils.isBlank(id)) {
                 Menu menu = new Menu();
@@ -212,12 +223,12 @@ public class BackController {
         Iterable<User> all = userRepository.findAll();
         List<UserResponse> result = new ArrayList<>();
         all.forEach(user -> {
-            UserResponse userResponse=new UserResponse();
-            BeanUtils.copyProperties(user,userResponse);
-            StringBuilder sb=null;
-            if(user.getRoleList()!=null){
-                sb=new StringBuilder();
-                for(Role role:user.getRoleList()){
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(user, userResponse);
+            StringBuilder sb = null;
+            if (user.getRoleList() != null) {
+                sb = new StringBuilder();
+                for (Role role : user.getRoleList()) {
                     sb.append(role.getRoleName());
                     sb.append(";");
                 }
@@ -232,11 +243,9 @@ public class BackController {
     }
 
 
-
-
     @RequestMapping(value = "/userAdd")
     public ModelAndView userAdd(@RequestParam("id") String id) {
-        User user=null;
+        User user = null;
         if (StringUtils.isBlank(id))
             user = new User();
         else {
@@ -253,7 +262,7 @@ public class BackController {
 
     @RequestMapping(value = "/saveUser")
     @ResponseBody
-    public JsonResult saveUser(HttpServletRequest request, User user,@RequestParam("role")String role) {
+    public JsonResult saveUser(HttpServletRequest request, User user, @RequestParam("role") String role) {
         TDoing<Map<String, Object>> doing = jr -> {
             if (StringUtils.isBlank(user.getUserName())) {
                 jr.errorParam(User.USERNAME_IS_INULL);
@@ -271,13 +280,13 @@ public class BackController {
             user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
             user.setPasswordTimestamp(passwordTimestamp);
 
-            if(!StringUtils.isBlank(role)){
-                String[]roleIds=role.split(",");
-                Role role1=null;
-                List<Role>roleList=new ArrayList<>(roleIds.length);
-                for(String rid:roleIds){
-                    role1=roleRepository.findOne(rid);
-                    if(role1!=null){
+            if (!StringUtils.isBlank(role)) {
+                String[] roleIds = role.split(",");
+                Role role1 = null;
+                List<Role> roleList = new ArrayList<>(roleIds.length);
+                for (String rid : roleIds) {
+                    role1 = roleRepository.findOne(rid);
+                    if (role1 != null) {
                         roleList.add(role1);
                     }
                 }
@@ -319,4 +328,40 @@ public class BackController {
         return tempData;
     }
 
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult login(HttpServletRequest request, HttpServletResponse response, @RequestParam("email") String username, @RequestParam("password") String password) {
+        //Object shiroLoginFailure = request.getAttribute("shiroLoginFailure");
+        TDoing<Map<String, Object>> doing = jr -> {
+            Subject currentUser = SecurityUtils.getSubject();
+            if (!currentUser.isAuthenticated()){
+                //已经登录了
+                response.
+            }else  {
+                UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+                token.setRememberMe(false);//记住密码
+                try {
+                    currentUser.login(token);
+                } catch (UnknownAccountException uae) {
+                    log.error("There is no user with username of " + token.getPrincipal());
+                    jr.errorParam(User.IS_NOT_EXIST);
+                    return;
+                } catch (IncorrectCredentialsException ice) {
+                    log.error("Password for account " + token.getPrincipal() + " was incorrect!");
+                    jr.errorParam(User.PASSWORD_IS_NOT_VALID);
+                    return;
+                } catch (LockedAccountException lae) {
+                    log.error("The account for username " + token.getPrincipal() + " is locked.  " +
+                            "Please contact your administrator to unlock it.");
+                    jr.errorParam(User.WAS_LOCKED);
+                    return;
+                } catch (AuthenticationException ae) {
+                    log.error("AuthenticationException error " + token.getPrincipal() + " was incorrect!",ae);
+                    jr.errorParam(User.ERROR);
+                }
+            }
+        };
+        return doing.go("", request, objectMapper, log);
+    }
 }
