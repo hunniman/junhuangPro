@@ -21,6 +21,16 @@ public class webMvcConfigureAdapter extends WebMvcConfigurerAdapter {
     }
 
 
+//    @Override
+//    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+//        super.configureHandlerExceptionResolvers(exceptionResolvers);
+//        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+//        Properties properties = new Properties();
+//        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/test");
+//        simpleMappingExceptionResolver.setExceptionMappings(properties);
+//        exceptionResolvers.add(simpleMappingExceptionResolver);
+//    }
+
     @Bean
     public InternalResourceViewResolver viewResolver(){
         InternalResourceViewResolver resolver=new InternalResourceViewResolver();

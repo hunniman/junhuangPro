@@ -14,6 +14,7 @@ import com.junhuang.market.core.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
@@ -58,6 +58,7 @@ public class BackController {
     @Autowired
     private UserRepository userRepository;
 
+    @RequiresAuthentication
     @RequestMapping(value = "/index")
     public String index() {
         return "admin/index";
@@ -335,10 +336,7 @@ public class BackController {
         //Object shiroLoginFailure = request.getAttribute("shiroLoginFailure");
         TDoing<Map<String, Object>> doing = jr -> {
             Subject currentUser = SecurityUtils.getSubject();
-            if (!currentUser.isAuthenticated()){
-                //已经登录了
-                response.
-            }else  {
+            if (!currentUser.isAuthenticated()) {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
                 token.setRememberMe(false);//记住密码
                 try {

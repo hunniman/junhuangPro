@@ -1,6 +1,8 @@
 package com.junhuang.market.api.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.junhuang.market.api.AppInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -20,21 +22,20 @@ import java.util.List;
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    /*@Autowired
-    private AppInterceptor appInterceptor;*/
-
     List<String> pathPatterns = Arrays.asList(
             "/api/v1/product*/**",
             "/api/v1/coupon*/**",
             "/api/v1/order*/**",
             "/api/v1/red_packet*/**",
             "/api/v1/gift_packet*/**");
+    @Autowired
+    private AppInterceptor appInterceptor;
 
-   /* @Override
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
         registry.addInterceptor(appInterceptor).addPathPatterns((String[]) pathPatterns.toArray());
-    }*/
+    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
