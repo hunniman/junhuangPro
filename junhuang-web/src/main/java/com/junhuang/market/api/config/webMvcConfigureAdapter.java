@@ -4,12 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.Locale;
+import java.util.Properties;
 
 
 @Configuration
@@ -95,5 +97,18 @@ public class webMvcConfigureAdapter extends WebMvcConfigurerAdapter {
         return  dBaasLocaleResolver;
     }
 
+    /**
+     * 主要设置没有授权用户的 页面跳转
+     * @return
+     */
+    @Bean
+    public SimpleMappingExceptionResolver getSimpleMappingExceptionResolver(){
+        SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
+        Properties properties=new Properties();
+        properties.setProperty("org.apache.shiro.authz.AuthorizationException","/exception/unAuthorization");
+        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/exception/unAuthorization");
+        simpleMappingExceptionResolver.setExceptionMappings(properties);
+        return simpleMappingExceptionResolver;
+    }
 
 }

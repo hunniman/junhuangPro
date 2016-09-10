@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,8 @@ public class BackController {
     private UserRepository userRepository;
 
     @RequiresAuthentication
-    @RequestMapping(value = "/index")
+    @RequiresRoles("admin")
+    @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index() {
         return "admin/index";
     }
@@ -269,17 +271,18 @@ public class BackController {
                 jr.errorParam(User.USERNAME_IS_INULL);
                 return;
             }
-            if (StringUtils.isBlank(user.getPassword())) {
+            if (StringUtils.isBlank(user.getId())&&StringUtils.isBlank(user.getPassword())) {
                 jr.errorParam(User.PASSWORD_IS_INULL);
                 return;
             }
-            if (StringUtils.isBlank(user.getEmail())) {
+            if (StringUtils.isBlank(user.getId())&&StringUtils.isBlank(user.getEmail())) {
                 jr.errorParam(User.EMAIL_IS_INULL);
                 return;
             }
-            Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
+
+           /* Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
             user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
-            user.setPasswordTimestamp(passwordTimestamp);
+            user.setPasswordTimestamp(passwordTimestamp);*/
 
             if (!StringUtils.isBlank(role)) {
                 String[] roleIds = role.split(",");
@@ -296,10 +299,18 @@ public class BackController {
 
             if (StringUtils.isBlank(user.getId())) {
                 user.setId(null);
+                Long passwordTimestamp = java.sql.Date.from(Instant.now()).getTime();
+                user.setPassword(userHelper.getMd5Password(passwordTimestamp, user.getPassword()));
+                user.setPasswordTimestamp(passwordTimestamp);
                 user.setCreateTime(new Date());
                 userRepository.insert(user);
             } else {
-                userRepository.save(user);
+                User dbUser=userRepository.findOne(user.getId());
+                dbUser.setSex(user.getSex());
+                dbUser.setRoleList(user.getRoleList());
+                dbUser.setNickName(user.getNickName());
+                dbUser.setUserName(user.getUserName());
+                userRepository.save(dbUser);
             }
         };
         return doing.go(user, request, objectMapper, log);
@@ -355,7 +366,7 @@ public class BackController {
                     jr.errorParam(User.WAS_LOCKED);
                     return;
                 } catch (AuthenticationException ae) {
-                    log.error("AuthenticationException error " + token.getPrincipal() + " was incorrect!",ae);
+                    log.error("AuthenticationException error " + token.getPrincipal() + " was incorrect!", ae);
                     jr.errorParam(User.ERROR);
                 }
             }

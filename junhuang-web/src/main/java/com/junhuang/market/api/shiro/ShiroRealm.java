@@ -50,7 +50,7 @@ public class ShiroRealm  extends JdbcRealm {
 //        info.addRole("testJo");
 //        info.addStringPermission("lightsaber:weild");
 
-        User user = userRepository.findByUserName(userName);
+        User user = userRepository.findByEmail(userName);
         if(user==null)return null;
 
         List<Role> roleList = user.getRoleList();
